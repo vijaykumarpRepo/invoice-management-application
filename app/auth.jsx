@@ -8,7 +8,7 @@ import db from "./db";
 
 
 const prisma =new PrismaClient
-export const authOptions:AuthOptions={
+export const authOptions={
     adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({

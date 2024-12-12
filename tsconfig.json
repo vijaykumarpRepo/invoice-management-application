@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/customer/route.jsx", "app/api/invoice/route.jsx", "app/api/auth/authcontext.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/customer/route.jsx", "app/api/invoice/route.jsx", "app/api/auth/authcontext.jsx", "app/auth.jsx", "app/api/auth/[...nextauth]/route.jsx", "app/db.tsx"],
   "exclude": ["node_modules"]
 }
