@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useState } from "react"
 
+
+
 export default function Register() {
   const[data,setData]=useState({
     name:"",
@@ -12,7 +14,7 @@ export default function Register() {
     const registeUser=async(e)=>{
       e.preventDefault();
        axios.post("/api/auth/register",data).then(()=>alert("Registered successfully"))
-       .catch((err)=>alert("An error occurred"))
+       .catch((err)=>alert("An error occurred"+err))
     }
     return (
       <>

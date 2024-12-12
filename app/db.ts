@@ -1,7 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import {  PrismaClient } from "@prisma/client";
 
 declare global{
-    var prisma:PrismaClient | undefined;
+    const prisma:PrismaClient | undefined;
 }
 
 export const db=global.prisma || new PrismaClient();
