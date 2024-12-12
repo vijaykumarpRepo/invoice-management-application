@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 
-export default function InvoiceList({ customerId = null }) {
+export default function InvoiceList({  }) {
   const [invoices, setInvoices] = useState([]);
   const [customers, setCustomers] = useState([]); // List of customers for dropdown
   const [newCustomerName, setNewCustomerName] = useState(""); // New customer name
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [editingInvoice, setEditingInvoice] = useState(null);
+  const [editingInvoice, setEditingInvoice] = useState();
 
   // Fetch invoices and customers
   useEffect(() => {
