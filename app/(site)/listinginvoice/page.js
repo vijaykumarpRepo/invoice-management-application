@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function ViewInvoices() {
   const [customers, setCustomers] = useState([]); // List of customers
@@ -59,13 +60,26 @@ export default function ViewInvoices() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">View Invoices</h1>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 p-6"
+    >
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">View Invoices</h1>
       <div className="w-full max-w-lg">
-        <label className="block font-semibold text-gray-600 mb-2">
+        <motion.label
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="block font-semibold text-gray-600 mb-2"
+        >
           Select Customer
-        </label>
-        <select
+        </motion.label>
+        <motion.select
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
           value={customerId}
           onChange={handleCustomerChange}
           className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -76,14 +90,30 @@ export default function ViewInvoices() {
               {customer.name}
             </option>
           ))}
-        </select>
+        </motion.select>
       </div>
       {loading ? (
-        <div className="mt-6 text-gray-600">Loading invoices...</div>
+        <motion.div
+          className="mt-6 text-gray-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          Loading invoices...
+        </motion.div>
       ) : error ? (
-        <div className="mt-6 text-red-600">{error}</div>
+        <motion.div
+          className="mt-6 text-red-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          {error}
+        </motion.div>
       ) : invoices.length > 0 ? (
-        <div className="mt-6 w-full max-w-lg bg-white shadow-md rounded p-4">
+        <motion.div
+          className="mt-6 w-full max-w-lg bg-white shadow-md rounded p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <h2 className="text-lg font-bold text-gray-800 mb-4">
             Invoices for {invoices[0]?.customer?.name || ""}
           </h2>
@@ -102,15 +132,23 @@ export default function ViewInvoices() {
                   <td className="p-2">{invoice.id}</td>
                   <td className="p-2">${invoice.amount.toFixed(2)}</td>
                   <td className="p-2 capitalize">{invoice.status}</td>
-                  <td className="p-2">{new Date(invoice.dueDate).toLocaleDateString()}</td>
+                  <td className="p-2">
+                    {new Date(invoice.dueDate).toLocaleDateString()}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </motion.div>
       ) : customerId && !loading ? (
-        <div className="mt-6 text-gray-600">No invoices found for this customer.</div>
+        <motion.div
+          className="mt-6 text-gray-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          No invoices found for this customer.
+        </motion.div>
       ) : null}
-    </div>
+    </motion.div>
   );
 }
