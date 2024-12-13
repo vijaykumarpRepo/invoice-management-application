@@ -61,6 +61,31 @@ export default function Dashboard() {
     await signOut({ callbackUrl: "/login" }); // Redirect to login page after logout
   };
 
+  const handleEdit = (customerId) => {
+    router.push(`/editcustomer/${customerId}`); // Navigate to edit customer page
+  };
+
+  const handleDelete = async (customerId) => {
+    if (confirm("Are you sure you want to delete this customer?")) {
+      try {
+        const res = await fetch(`/api/customer/${customerId}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          alert("Customer deleted successfully");
+          fetchCustomers(currentPage); // Refresh the customer list
+        } else {
+          const error = await res.json();
+          alert(`Error: ${error.message}`);
+        }
+      } catch (error) {
+        console.error("Error deleting customer:", error);
+        alert("An unexpected error occurred.");
+      }
+    }
+  };
+
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -105,12 +130,13 @@ export default function Dashboard() {
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Total Invoices</th>
               <th className="border border-gray-300 px-4 py-2">Outstanding</th>
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="3" className="text-center py-4">
+                <td colSpan="4" className="text-center py-4">
                   Loading customers...
                 </td>
               </tr>
@@ -126,11 +152,25 @@ export default function Dashboard() {
                       ).length
                     }
                   </td>
+                  <td className="border border-gray-300 px-4 py-2 flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(customer.id)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(customer.id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center py-4">
+                <td colSpan="4" className="text-center py-4">
                   No customers found.
                 </td>
               </tr>
