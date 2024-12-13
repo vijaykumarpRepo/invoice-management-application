@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Dashboard() {
   const { data: session, status } = useSession(); // Check for user session
@@ -57,6 +57,10 @@ export default function Dashboard() {
     }
   };
 
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/login" }); // Redirect to login page after logout
+  };
+
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -67,7 +71,15 @@ export default function Dashboard() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Customer Dashboard</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Customer Dashboard</h1>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
+      </div>
 
       {/* Key Stats */}
       <div className="grid grid-cols-3 gap-6 mb-8">
