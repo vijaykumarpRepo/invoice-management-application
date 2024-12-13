@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
-  const { data: session, status } = useSession(); // Get session and status
+  const { data: status } = useSession(); // Get session and status
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -104,7 +104,7 @@ export default function Login() {
 
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            {"Don't have an account?"}{" "}
             <button
               onClick={() => router.push("/register")}
               className="text-indigo-600 hover:text-indigo-500 font-semibold"
