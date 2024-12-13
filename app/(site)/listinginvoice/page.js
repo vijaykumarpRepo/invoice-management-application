@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function ViewInvoices() {
+  
   const [customers, setCustomers] = useState([]); // List of customers
   const [customerId, setCustomerId] = useState(""); // Selected customer ID
   const [invoices, setInvoices] = useState([]); // Invoices for the selected customer

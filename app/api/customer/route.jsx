@@ -30,36 +30,33 @@ export async function POST(request){
 
 }
 
-export async function GET() {
-    try {
-      const session = await getServerSession(authOptions);
-  
-      if (!session || !session.user || !session.user.id) {
-        return new Response(
-          JSON.stringify({ message: "Unauthorized" }),
-          { status: 401 }
-        );
-      }
-  
-      // Fetch customers for the logged-in user
-      const customers = await db.customer.findMany({
-        where: { userId: session.user.id },
-        select: {
-          id: true,
-          name: true,
-        },
-        orderBy: { name: "asc" },
-      });
-  
-      return new Response(JSON.stringify(customers), {
-        headers: { "Content-Type": "application/json" },
-        status: 200,
-      });
-    } catch (error) {
-      console.error("Error fetching customers:", error);
-      return new Response(
-        JSON.stringify({ message: "Internal Server Error" }),
-        { status: 500 }
-      );
-    }
+export async function GET(request) {
+  try {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    const customers = await db.customer.findMany({
+      skip: offset,
+      take: limit,
+      include: {
+        invoices: true,
+      },
+    });
+
+    const totalCustomers = await db.customer.count();
+    const totalPages = Math.ceil(totalCustomers / limit);
+
+    return new Response(
+      JSON.stringify({ customers, totalPages }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching customers:", error);
+    return new Response(
+      JSON.stringify({ message: "Internal Server Error" }),
+      { status: 500 }
+    );
   }
+}
